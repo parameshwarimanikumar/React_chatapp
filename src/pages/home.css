@@ -1,0 +1,119 @@
+.home {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  justify-content: center;
+  background-color: rgb(210, 234, 252);
+}
+
+.container {
+  border: 1px solid white;
+  border-radius: 10px;
+  width: 65%;
+  height: 80%;
+  display: flex;
+  overflow: hidden;
+}
+
+.sidebar {
+  flex: 1;
+  background-color: #82afd3; /* Add some color to the sidebar */
+  border-right: 1px solid rgba(158, 158, 231, 0.221);
+}
+
+.chat {
+  flex: 2;
+  background-color: #6b99b1; /* Add some color to the chat area */
+  color: black;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #4f5860;
+  color: white;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+}
+
+.user img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  background-color: #ccc; /* Fallback if no image */
+}
+
+.user span {
+  margin-right: 10px;
+}
+
+.user button {
+  padding: 5px 10px;
+  background-color: #5d86a7;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.user button:hover {
+  background-color: #3867df;
+}
+
+.hidden-avatar {
+  display: none;
+}
+
+.search {
+  border-bottom: 1px solid gray;
+}
+
+.searchForm input {
+  font-size: 12;
+}
+
+.chats {
+  display: flex;
+  flex-direction: column;
+  background-color: #87b1d4;
+  padding: 10px;
+  height: 100%;
+}
+
+.userChat {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: rgb(111, 143, 156);
+  margin-bottom: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.userChat:hover {
+  background-color: #7c8fd3;
+}
+
+.userChatInfo {
+  display: flex;
+  align-items: center;
+}
+
+.userAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
