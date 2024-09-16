@@ -35,8 +35,7 @@ const Chats = () => {
                 alt={user.username} 
                 className='userChatImg'
               />
-              <p className='userChatUsername'>{user.username}</p>
-            </div>
+              </div>
           </div>
         ))
       )}

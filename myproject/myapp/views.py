@@ -41,29 +41,25 @@ def create_user(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# POST: Log in a user and issue JWT token
+
 @api_view(['POST'])
 @csrf_exempt  # Ensure this is used with care, especially in production
 def login_user(request):
     if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            email = data.get('email')
-            password = data.get('password')
+        email = request.data.get('email')  # Use request.data to get the email
+        password = request.data.get('password')  # Use request.data to get the password
 
-            user = authenticate(request, email=email, password=password)
-            if user is not None:
-                login(request, user)
-                refresh = RefreshToken.for_user(user)
-                response_data = {
-                    'refresh': str(refresh),
-                    'access': str(refresh.access_token),
-                    'username': user.username,
-                }
-                return Response(response_data, status=status.HTTP_200_OK)
-            else:
-                return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
-        except json.JSONDecodeError:
-            return Response({'error': 'Invalid JSON'}, status=status.HTTP_400_BAD_REQUEST)
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            login(request, user)
+            refresh = RefreshToken.for_user(user)
+            response_data = {
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'username': user.username,
+            }
+            return Response(response_data, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response({'error': 'Invalid request method'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
