@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)  # Use email as unique identifier
-    profile_picture = models.ImageField(upload_to='profile_pictures/', default='profile_pictures/default-avatar.jpeg')
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     username = models.CharField(max_length=150, unique=False, blank=True, null=True)  # Optional
 
     USERNAME_FIELD = 'email'  # Use email for authentication
