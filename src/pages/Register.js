@@ -7,12 +7,12 @@ const Register = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [profilePicture, setProfilePicture] = useState(null); // New state for profile picture
+    const [profilePicture, setProfilePicture] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
     const handleProfilePictureChange = (e) => {
-        setProfilePicture(e.target.files[0]); // Handle file selection
+        setProfilePicture(e.target.files[0]);
     };
 
     const handleSubmit = async (e) => {
@@ -22,29 +22,24 @@ const Register = () => {
         formData.append("email", email);
         formData.append("password", password);
         if (profilePicture) {
-            formData.append("profile_picture", profilePicture); // Append the profile picture
+            formData.append("profile_picture", profilePicture);
         }
 
         try {
-            // Send registration data including profile picture to Django API
             const response = await axios.post('http://localhost:8000/api/users/create/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
 
-            // If registration is successful, redirect to login
             if (response.status === 201) {
                 navigate("/login");
             }
         } catch (error) {
             if (error.response) {
-                // Log the exact error for debugging
-                console.error('Error response:', error.response.data);
-                // Set a detailed error message for the user
                 setErrorMessage(JSON.stringify(error.response.data));
             } else {
-                setErrorMessage("Registration failed. Please try again.");
+                setErrorMessage("Registration failed.");
             }
         }
     };
@@ -53,7 +48,7 @@ const Register = () => {
         <div className="formContainer">
             <div className="formWrapper">
                 <span className="title">Register</span>
-                <form onSubmit={handleSubmit} encType="multipart/form-data">
+                <form onSubmit={handleSubmit}>
                     <input 
                         type="text" 
                         placeholder="Username" 

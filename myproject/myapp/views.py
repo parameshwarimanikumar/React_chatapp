@@ -11,24 +11,27 @@ from .serializers import UserSerializer, UpdateProfilePictureSerializer
 import json
 from django.views.decorators.csrf import csrf_exempt
 
-# PATCH: Update the user's profile picture
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
 def update_profile_picture(request):
-    user = request.user  # Get the currently authenticated user
+    user = request.user
     serializer = UpdateProfilePictureSerializer(user, data=request.data, partial=True)
     
     if serializer.is_valid():
         serializer.save()
-        return Response({'message': 'Profile picture updated successfully'}, status=status.HTTP_200_OK)
+        return Response({
+            'message': 'Profile picture updated successfully',
+            'profile_picture_url': request.build_absolute_uri(user.profile_picture.url)
+        }, status=status.HTTP_200_OK)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 # GET: List all users (for admin or demonstration purposes)
 @api_view(['GET'])
 def user_list(request):
     users = CustomUser.objects.all()
-    serializer = UserSerializer(users, many=True)
+    serializer = UserSerializer(users, many=True, context={'request': request})
     return Response(serializer.data)
 
 # POST: Register a new user

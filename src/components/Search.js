@@ -41,10 +41,9 @@ const Search = () => {
           <div key={user.id} className='userChatInfo'>
             <img
               src={user.profile_picture || '/assets/default-avatar.jpeg'}
-              alt={user.username}
+              alt={users.username}
               className='userAvatar'
             />
-            
           </div>
         ))}
       </div>

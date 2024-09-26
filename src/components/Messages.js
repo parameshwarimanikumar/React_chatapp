@@ -1,15 +1,20 @@
 import React from 'react';
-import Message from './Message'; 
+import Message from './Message';
 
-const Messages = () => {
+const Messages = ({ selectedUser }) => {
   return (
     <div className='messages'>
-        <Message />
-        <Message />
-        <Message />
-        <Message />
-        <Message />
-        
+      {selectedUser ? (
+        <>
+          <h2>Chat with {selectedUser.username}</h2>
+          {/* Render the messages here */}
+          {/* Replace with actual message data */}
+          <Message />
+          <Message />
+        </>
+      ) : (
+        <p>Please select a user to start chatting</p>
+      )}
     </div>
   );
 };

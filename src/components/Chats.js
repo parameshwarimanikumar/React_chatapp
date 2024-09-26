@@ -1,25 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const Chats = () => {
+const Chats = ({ onSelectUser }) => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        // Without token handling
-        const response = await axios.get('http://localhost:8000/api/users/');
-        console.log('API Response:', response.data); // Add this line
+        const token = localStorage.getItem('access_token');
+        const response = await axios.get('http://localhost:8000/api/users/', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setUsers(response.data);
       } catch (error) {
-        console.error('Error fetching users:', error.response ? error.response.data : error.message);
         setError(error.response ? error.response.data.detail : error.message);
       }
     };
 
     fetchUsers();
   }, []);
+
+  const handleUserClick = (user) => {
+    onSelectUser(user); // Notify the parent component of the selected user
+  };
 
   return (
     <div className='chats'>
@@ -28,14 +34,14 @@ const Chats = () => {
         <p>No users found.</p>
       ) : (
         users.map(user => (
-          <div className='userChat' key={user.id}>
+          <div className='userChat' key={user.id} onClick={() => handleUserClick(user)}>
             <div className='userChatInfo'>
-              <img 
-                src={user.profile_picture || '/assets/default-avatar.jpeg'} 
-                alt={user.username} 
-                className='userChatImg'
+              <img
+                src={user.profile_picture_url ? `http://localhost:8000${user.profile_picture_url}` : '/assets/default-avatar.jpeg'}
+                alt={user.username}
+                className='usersAvatar'
               />
-              </div>
+            </div>
           </div>
         ))
       )}

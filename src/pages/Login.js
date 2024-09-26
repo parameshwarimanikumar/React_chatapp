@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import './login.css';  // Import the CSS file
+import './login.css';
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -25,27 +25,17 @@ const Login = () => {
                 body: JSON.stringify(loginData),
             });
 
-            console.log('Response Status:', response.status);
-            console.log('Response Headers:', response.headers);
             const data = await response.json();
-            console.log('Response Data:', data);
 
             if (response.ok) {
-                console.log('Login successful');
-                // Store token and other user information
-                localStorage.setItem('authToken', data.token);  // Adjust according to your API response
-                localStorage.setItem('username', data.username); // Adjust according to your API response
-                // Redirect or handle post-login actions
+                localStorage.setItem('authToken', data.token);
+                localStorage.setItem('username', data.username);
                 navigate("/home");
             } else {
-                console.log('Login failed:', data);
-                // Display error message (assuming you have an error message state)
-                setErrorMessage(data.error || 'Login failed. Please check your credentials.');
+                setErrorMessage(data.error || 'Login failed.');
             }
         } catch (error) {
-            console.error('Error:', error);
-            // Display error message for network issues
-            setErrorMessage("Login failed. Please check your connection.");
+            setErrorMessage("Login failed. Check your connection.");
         }
     };
 

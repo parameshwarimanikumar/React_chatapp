@@ -9,6 +9,7 @@ class UpdateProfilePictureSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ['profile_picture']
 
+
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
 
@@ -20,14 +21,16 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
+        # Handle profile picture and password creation
         user = CustomUser.objects.create_user(
             username=validated_data['username'],
             email=validated_data.get('email', ''),
             password=validated_data['password'],
-            profile_picture=validated_data.get('profile_picture', None)
+            profile_picture=validated_data.get('profile_picture', None)  # Optional profile picture
         )
         return user
 
     def validate_password(self, value):
+        # Password validation using Django's built-in validation
         validate_password(value)
         return value

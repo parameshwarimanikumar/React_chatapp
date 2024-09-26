@@ -5,10 +5,12 @@ const UpdateProfilePicture = () => {
     const [profilePicture, setProfilePicture] = useState(null);
     const [message, setMessage] = useState("");
 
+    // This function handles the file input change
     const handleProfilePictureChange = (e) => {
-        setProfilePicture(e.target.files[0]); // Get the selected file
+        setProfilePicture(e.target.files[0]); // Set the selected file in state
     };
 
+    // This function handles the form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -18,18 +20,19 @@ const UpdateProfilePicture = () => {
         }
 
         const formData = new FormData();
-        formData.append('profile_picture', profilePicture);  // Add the file to form data
+        formData.append('profile_picture', profilePicture);
 
         try {
             const response = await axios.patch('http://localhost:8000/api/profile-picture/', formData, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,  // Send JWT token for authentication
-                    'Content-Type': 'multipart/form-data',  // Ensure proper content type
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,  // Add token here
+                    'Content-Type': 'multipart/form-data',
                 }
             });
 
             if (response.status === 200) {
                 setMessage("Profile picture updated successfully.");
+                // Optionally update the profile picture in your frontend
             }
         } catch (error) {
             setMessage("Error updating profile picture.");
@@ -42,12 +45,12 @@ const UpdateProfilePicture = () => {
                 <input 
                     type="file" 
                     accept="image/*" 
-                    onChange={handleProfilePictureChange} 
+                    onChange={handleProfilePictureChange}  // Handles file input
                     required 
                 />
                 <button type="submit">Update Profile Picture</button>
             </form>
-            {message && <p>{message}</p>}
+            {message && <p>{message}</p>}  {/* Displays message to the user */}
         </div>
     );
 };
