@@ -1,13 +1,11 @@
 import React from 'react';
 
-
-
-const Message = () => {
+const Message = ({ message, isSentByCurrentUser }) => {
   return (
-    <div className='message'>
-      <div className='messageInfo'>
-        <div className='messageContent'>
-      </div>         
+    <div className={isSentByCurrentUser ? 'message message--sent' : 'message message--received'}>
+      <div className="message__info">
+        <p className="message__body">{message.body}</p>
+        <span className="message__timestamp">{new Date(message.timestamp).toLocaleTimeString()}</span>
       </div>
     </div>
   );

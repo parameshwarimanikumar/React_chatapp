@@ -1,28 +1,25 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Cam from '../assets/Cam.jpg';  
 import Add from '../assets/Add.png';
 import More from '../assets/More.png';
-import { AuthContext } from '../context/AuthContext';
-import Messages from './Messages';
+
+import Messages from './Messages';  // Assuming these exist
 import Input from './Input';  
 
-const Chat = () => {
-  const { user, error } = useContext(AuthContext);
-
+const Chat = ({ selectedUser = null }) => {
   return (
     <div className='chat'>
       <div className='chatInfo'>
-        {error && <p className="error">Error: {error}</p>}
-        <span>{user ? user.displayName : 'Guest'}</span> {/* Display user name or Guest */}
+        {selectedUser ? <span>Chat with {selectedUser.username}</span> : <span>No user selected</span>}
         <div className='chatIcons'>
           <img src={Cam} alt="Camera" />
           <img src={Add} alt="Add" />
           <img src={More} alt="More" />
         </div>
       </div>
-      
-      <Messages />
-      <Input /> 
+
+      <Messages />  {/* Messages between current user and selected user */}
+      <Input />  {/* Input for sending messages */}
     </div>
   );
 };
