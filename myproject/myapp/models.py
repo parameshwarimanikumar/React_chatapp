@@ -43,6 +43,7 @@ class Message(models.Model):
     sender = models.ForeignKey(CustomUser, related_name='sent_messages', on_delete=models.CASCADE)
     receiver = models.ForeignKey(CustomUser, related_name='received_messages', on_delete=models.CASCADE)
     content = models.TextField()
+    file = models.FileField(upload_to='uploads/', blank=True, null=True)  # File attachment
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

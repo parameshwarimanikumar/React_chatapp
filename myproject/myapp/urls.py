@@ -1,5 +1,13 @@
 from django.urls import path
-from .views import get_messages, send_message, update_profile_picture, user_list, create_user, login_user
+from .views import (
+    get_messages,
+    send_message,
+    update_profile_picture,
+    user_list,
+    create_user,
+    login_user,
+    current_user,  # Make sure to import current_user
+)
 
 urlpatterns = [
     path('messages/<int:user_id>/', get_messages, name='get_messages'),  # GET messages with a specific user
@@ -8,4 +16,5 @@ urlpatterns = [
     path('users/', user_list, name='user_list'),  # GET all users
     path('users/create/', create_user, name='create_user'),  # POST to create a user
     path('login/', login_user, name='login_user'),  # POST to login
+    path('current_user/', current_user, name='current_user'),  # Updated endpoint for current user
 ]

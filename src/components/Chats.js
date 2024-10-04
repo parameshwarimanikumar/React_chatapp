@@ -37,11 +37,11 @@ const Chats = ({ onSelectUser }) => {
                     <div className='userChat' key={user.id} onClick={() => handleUserClick(user)}>
                         <div className='userChatInfo'>
                             <img
-                                src={user.profile_picture_url ? `http://localhost:8000${user.profile_picture_url}` : '/assets/default-avatar.jpeg'}
+                                src={user.profile_picture_url ? user.profile_picture_url : '/assets/default-avatar.jpeg'}
                                 alt={user.username}
-                                className='usersAvatar'
+                                className='userAvatar' // Use the correct class here for styling
                             />
-                            <span>{user.username || "Unnamed User"}</span> {/* Display username */}
+                            <span className='username'>{user.username}</span> {/* Show username next to the image */}
                         </div>
                     </div>
                 ))

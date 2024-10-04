@@ -32,19 +32,21 @@ def get_messages(request, user_id):
 @permission_classes([IsAuthenticated])
 def send_message(request):
     sender = request.user
-    receiver_id = request.data.get('receiver_id')
-    message_body = request.data.get('body')
+    receiver_id = request.data.get('recipient_id')
+    message_body = request.data.get('content')
+    file = request.FILES.get('file')  # Get the file from request
 
-    if not receiver_id or not message_body:
-        return Response({'error': 'Receiver and message body are required.'}, status=status.HTTP_400_BAD_REQUEST)
+    if not receiver_id or not (message_body or file):
+        return Response({'error': 'Receiver and message body or file are required.'}, status=status.HTTP_400_BAD_REQUEST)
     
     try:
         receiver = CustomUser.objects.get(id=receiver_id)
-        message = Message.objects.create(sender=sender, receiver=receiver, content=message_body)
+        message = Message.objects.create(sender=sender, receiver=receiver, content=message_body, file=file)  # Save the message
         serializer = MessageSerializer(message)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     except CustomUser.DoesNotExist:
         return Response({'error': 'Receiver not found.'}, status=status.HTTP_404_NOT_FOUND)
+
 
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
@@ -90,3 +92,17 @@ def login_user(request):
         }
         return Response(response_data, status=status.HTTP_200_OK)
     return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def current_user(request):
+    print("Request User:", request.user)  # Debug line
+    print("Authorization Header:", request.headers.get('Authorization'))  # Debug line
+    if not request.user.is_authenticated:
+        print("User is not authenticated")  # Debug line
+        return Response({'error': 'User is not authenticated.'}, status=status.HTTP_403_FORBIDDEN)
+
+    user = request.user  # Get the currently authenticated user
+    serializer = UserSerializer(user)  # Serialize the user data
+    return Response(serializer.data, status=status.HTTP_200_OK)
